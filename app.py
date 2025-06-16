@@ -1,5 +1,5 @@
 import streamlit as st
-from datetime import datetime
+from datetime import datetime, timedelta
 import pandas as pd
 import os
 
@@ -10,6 +10,10 @@ user_dict = {
     "user1": "pass1",
     "admin": "adminpass"
 }
+
+# 한국 시간(KST) 설정 함수
+def get_kst_now():
+    return datetime.utcnow() + timedelta(hours=9)
 
 # 초기 상태 설정
 if "logged_in" not in st.session_state:
@@ -48,14 +52,14 @@ else:
 
         if st.session_state.start_time is None:
             if st.button("식단 설계 시작"):
-                st.session_state.start_time = datetime.now()
+                st.session_state.start_time = get_kst_now()
                 st.success(f"시작 시간: {st.session_state.start_time.strftime('%H:%M:%S')}")
 
         uploaded_file = st.file_uploader("엑셀 파일 업로드", type=["xlsx", "xls"])
 
         if uploaded_file and st.button("📤 제출하기"):
             if st.session_state.start_time:
-                submit_time = datetime.now()
+                submit_time = get_kst_now()
                 duration = (submit_time - st.session_state.start_time).total_seconds()
                 
                 # 기록 저장
