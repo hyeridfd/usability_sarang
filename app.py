@@ -105,6 +105,11 @@ else:
                 if os.path.exists(LOG_FILE):
                     existing = pd.read_csv(LOG_FILE)
                     log_data = pd.concat([existing, log_data], ignore_index=True)
+                    if '파일경로' not in existing.columns:
+                        existing['파일경로'] = None
+                    log_data = pd.concat([existing, log_data], ignore_index=True)
+                else:
+                    log_data = log_data  # 최초 생성 시
                 log_data.to_csv(LOG_FILE, index=False)
 
                 st.success("제출 완료되었습니다!")
