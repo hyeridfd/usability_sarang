@@ -7,8 +7,20 @@ LOG_FILE = "log.csv"
 
 # 사용자 설정
 user_dict = {
-    "user1": "pass1",
-    "admin": "adminpass"
+    "SR01": "SR01",
+    "SR02": "SR02",
+    "SR03": "SR03",
+    "SR04": "SR04",
+    "SR05": "SR05",
+    "SR06": "SR06",
+    "SR07": "SR07",
+    "SR08": "SR08",
+    "SR09": "SR09",
+    "SR10": "SR10",
+    "SR11": "SR11",
+    "SR12": "SR12",
+    "SR13": "SR13",
+    "admin": "admin"
 }
 
 # 한국 시간(KST) 설정 함수
