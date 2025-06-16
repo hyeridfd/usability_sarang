@@ -4,6 +4,8 @@ import pandas as pd
 import os
 
 LOG_FILE = "log.csv"
+UPLOAD_FOLDER = "uploads"
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 # 사용자 설정
 user_dict = {
@@ -23,17 +25,16 @@ user_dict = {
     "admin": "admin"
 }
 
-# 한국 시간(KST) 설정 함수
 def get_kst_now():
     return datetime.utcnow() + timedelta(hours=9)
 
-# 초기 상태 설정
+# 초기 상태
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
     st.session_state.username = ""
     st.session_state.start_time = None
 
-# 로그인
+# 로그인 화면
 if not st.session_state.logged_in:
     st.title("로그인")
     username = st.text_input("아이디")
@@ -48,18 +49,33 @@ if not st.session_state.logged_in:
 
 else:
     st.success(f"{st.session_state.username}님 환영합니다.")
-    
-    # 관리자 페이지
+
+    # 🔒 관리자 페이지
     if st.session_state.username == "admin":
         st.header("📊 관리자 페이지: 제출 기록")
         if os.path.exists(LOG_FILE):
             df = pd.read_csv(LOG_FILE)
             st.dataframe(df)
-            st.download_button("엑셀로 다운로드", df.to_csv(index=False).encode("utf-8"), file_name="제출기록.csv")
+
+            user_list = df["사용자"].unique().tolist()
+            selected_user = st.selectbox("사용자 선택", user_list)
+
+            user_file = os.path.join(UPLOAD_FOLDER, f"{selected_user}_제출파일.xlsx")
+            if os.path.exists(user_file):
+                st.success(f"{selected_user}님의 제출 파일:")
+                with open(user_file, "rb") as f:
+                    st.download_button(
+                        label=f"📥 {selected_user} 제출 파일 다운로드",
+                        data=f,
+                        file_name=f"{selected_user}_제출파일.xlsx"
+                    )
+            else:
+                st.warning(f"{selected_user}님의 제출 파일이 존재하지 않습니다.")
         else:
             st.info("제출 기록이 아직 없습니다.")
+
+    # 🙋 사용자 페이지
     else:
-        # 사용자 제출 인터페이스
         st.header("✅ 기존 수기 방식")
 
         if st.session_state.start_time is None:
@@ -73,16 +89,19 @@ else:
             if st.session_state.start_time:
                 submit_time = get_kst_now()
                 duration = (submit_time - st.session_state.start_time).total_seconds()
-                
-                # 기록 저장
+
+                file_path = os.path.join(UPLOAD_FOLDER, f"{st.session_state.username}_제출파일.xlsx")
+                with open(file_path, "wb") as f:
+                    f.write(uploaded_file.getbuffer())
+
                 log_data = pd.DataFrame([{
                     "사용자": st.session_state.username,
                     "시작시간": st.session_state.start_time.strftime('%Y-%m-%d %H:%M:%S'),
                     "제출시간": submit_time.strftime('%Y-%m-%d %H:%M:%S'),
-                    "소요시간(초)": int(duration)
+                    "소요시간(초)": int(duration),
+                    "파일경로": file_path
                 }])
 
-                # 기존 파일 있으면 추가, 없으면 새로 생성
                 if os.path.exists(LOG_FILE):
                     existing = pd.read_csv(LOG_FILE)
                     log_data = pd.concat([existing, log_data], ignore_index=True)
@@ -90,8 +109,6 @@ else:
 
                 st.success("제출 완료되었습니다!")
                 st.dataframe(log_data)
-
-                # 초기화
                 st.session_state.start_time = None
             else:
                 st.warning("먼저 설계 시작 버튼을 눌러주세요.")
