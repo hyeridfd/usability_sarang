@@ -93,6 +93,8 @@ else:
                     "제출시간": submit_time.strftime('%Y-%m-%d %H:%M:%S'),
                     "소요시간(초)": int(duration.total_seconds())
                 }
+                if "history_log" not in st.session_state:
+                    st.session_state.history_log = []
                 st.session_state.history_log.append(record)
 
                 # 결과 출력
