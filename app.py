@@ -26,7 +26,7 @@ if not st.session_state.logged_in:
         if username in user_dict and user_dict[username] == password:
             st.session_state.logged_in = True
             st.session_state.username = username
-            st.experimental_rerun()
+            st.rerun()
         else:
             st.error("아이디 또는 비밀번호가 올바르지 않습니다.")
 
