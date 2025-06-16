@@ -60,7 +60,7 @@ else:
             st.info("제출 기록이 아직 없습니다.")
     else:
         # 사용자 제출 인터페이스
-        st.header("✅ 식단 설계 시작")
+        st.header("✅ 기존 수기 방식")
 
         if st.session_state.start_time is None:
             if st.button("식단 설계 시작"):
