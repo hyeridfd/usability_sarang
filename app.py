@@ -53,6 +53,14 @@ else:
     # 🔒 관리자 페이지
     if st.session_state.username == "admin":
         st.header("📊 관리자 페이지: 제출 기록")
+
+        if st.button("🗑️ 기록 전체 삭제"):
+                if os.path.exists(LOG_FILE):
+                    os.remove(LOG_FILE)
+                    st.success("로그 파일이 삭제되었습니다.")
+                else:
+                    st.warning("삭제할 로그 파일이 없습니다.")
+
         if os.path.exists(LOG_FILE):
             df = pd.read_csv(LOG_FILE)
             st.dataframe(df)
