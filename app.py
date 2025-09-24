@@ -5,7 +5,7 @@ import os
 
 # 페이지 설정
 st.set_page_config(
-    page_title="식단 설계 시스템",
+    page_title=" 기존 수기 방식 식단 개선 시스템",
     page_icon="🍽️",
     layout="wide",
     initial_sidebar_state="collapsed"
@@ -254,7 +254,7 @@ else:
     if st.session_state.username == "admin":
         st.markdown("""
         <div class="admin-header">
-            <h1>👨‍💼 관리자 페이지</h1>
+            <h1>🔧 관리자 페이지</h1>
             <p>시스템 관리 및 제출 기록 확인</p>
         </div>
         """, unsafe_allow_html=True)
@@ -352,7 +352,7 @@ else:
     else:
         st.markdown("""
         <div class="user-header">
-            <h1>✅ 식단 설계 작업</h1>
+            <h1>식단 설계 작업</h1>
             <p>기존 수기 방식으로 식단을 설계해주세요</p>
         </div>
         """, unsafe_allow_html=True)
@@ -361,7 +361,7 @@ else:
         st.markdown("""
         <div class="card">
             <h3>🚀 작업 시작</h3>
-            <p>아래 버튼을 클릭하여 식단 설계를 시작하세요.</p>
+            <p>아래 버튼을 클릭하여 기존 방식으로 식단 개선 작업을 시작하세요.</p>
         </div>
         """, unsafe_allow_html=True)
 
@@ -369,7 +369,7 @@ else:
             col1, col2, col3 = st.columns([1, 2, 1])
             with col2:
                 st.markdown('<div class="start-button">', unsafe_allow_html=True)
-                if st.button("🎯 식단 설계 시작", use_container_width=True):
+                if st.button("🍽️ 식단 설계 시작", use_container_width=True):
                     st.session_state.start_time = get_kst_now()
                     st.success(f"⏰ 시작 시간: {st.session_state.start_time.strftime('%H:%M:%S')}")
                     st.rerun()
@@ -433,7 +433,7 @@ else:
 
                         log_data.to_csv(LOG_FILE, index=False)
 
-                        st.balloons()
+                        
                         st.success("🎉 제출이 완료되었습니다!")
                         
                         # 결과 요약
