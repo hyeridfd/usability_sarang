@@ -367,7 +367,7 @@ else:
                     st.success(f"⏰ 시작 시간: {st.session_state.start_time.strftime('%H:%M:%S')}")
                     st.rerun()
                 st.markdown('</div>', unsafe_allow_html=True)
-             with col2:   
+            with col2: 
                  if st.button("🚪 로그아웃", use_container_width=True):
                     st.session_state.logged_in = False
                     st.session_state.username = ""
