@@ -350,13 +350,6 @@ else:
 
     # 🙋 사용자 페이지
     else:
-        st.markdown("""
-        <div class="user-header">
-            <h1>식단 설계 작업</h1>
-            <p>기존 수기 방식으로 식단을 설계해주세요</p>
-        </div>
-        """, unsafe_allow_html=True)
-
         # 시작 버튼 섹션
         st.markdown("""
         <div class="card">
@@ -366,14 +359,21 @@ else:
         """, unsafe_allow_html=True)
 
         if st.session_state.start_time is None:
-            col1, col2, col3 = st.columns([1, 2, 1])
-            with col2:
+            col1, col2 = st.columns([1, 1])
+            with col1:
                 st.markdown('<div class="start-button">', unsafe_allow_html=True)
                 if st.button("🍽️ 식단 설계 시작", use_container_width=True):
                     st.session_state.start_time = get_kst_now()
                     st.success(f"⏰ 시작 시간: {st.session_state.start_time.strftime('%H:%M:%S')}")
                     st.rerun()
                 st.markdown('</div>', unsafe_allow_html=True)
+             with col2:   
+                 if st.button("🚪 로그아웃", use_container_width=True):
+                    st.session_state.logged_in = False
+                    st.session_state.username = ""
+                    st.session_state.start_time = None
+                    st.rerun()
+
         else:
             # 진행 중 상태 표시
             current_time = get_kst_now()
@@ -447,13 +447,3 @@ else:
                         """, unsafe_allow_html=True)
                         
                         st.session_state.start_time = None
-
-    # 로그아웃 버튼
-    st.markdown("<br><br>", unsafe_allow_html=True)
-    col1, col2, col3 = st.columns([2, 1, 2])
-    with col2:
-        if st.button("🚪 로그아웃", use_container_width=True):
-            st.session_state.logged_in = False
-            st.session_state.username = ""
-            st.session_state.start_time = None
-            st.rerun()
