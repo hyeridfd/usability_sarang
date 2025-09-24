@@ -368,6 +368,7 @@ else:
                     st.rerun()
                 st.markdown('</div>', unsafe_allow_html=True)
             with col2: 
+                st.markdown('<div class="start-button">', unsafe_allow_html=True)
                  if st.button("🚪 로그아웃", use_container_width=True):
                     st.session_state.logged_in = False
                     st.session_state.username = ""
