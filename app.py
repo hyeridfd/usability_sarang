@@ -52,17 +52,17 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 user_dict = {
     "SR01": "test01",
     "SR02": "test02",
-    "SR03": "SR03",
-    "SR04": "SR04",
-    "SR05": "SR05",
-    "SR06": "SR06",
-    "SR07": "SR07",
-    "SR08": "SR08",
-    "SR09": "SR09",
-    "SR10": "SR10",
-    "SR11": "SR11",
-    "SR12": "SR12",
-    "SR13": "SR13",
+    "SR03": "test03",
+    "SR04": "test04",
+    "SR05": "test05",
+    "SR06": "test06",
+    "SR07": "test07",
+    "SR08": "test08",
+    "SR09": "test09",
+    "SR10": "test10",
+    "SR11": "test11",
+    "SR12": "test12",
+    "SR13": "test13",
     "admin": "admin"
 }
 
